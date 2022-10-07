@@ -1,23 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
+import source from "./Images/bg-header-desktop.svg";
+import Input from "./components/Input/Input";
+import JobsContainer from "./components/JobsContainer/JobsContainer";
+import Jobs from "./Data.json";
 
 function App() {
+  const [searchText, setSearchText] = useState("");
+  const keys = ["role", "position", "level", "location", "contract"];
+  function search(jobs) {
+    return jobs.filter((job) =>
+      keys.some((key) =>
+        job[key].toLowerCase().includes(searchText.toLowerCase())
+      )
+    );
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="top">
+        <img src={source} alt="" />
+      </div>
+      <Input searchText={searchText} setSearchText={setSearchText} />
+      <JobsContainer jobs={search(Jobs)} />
     </div>
   );
 }
